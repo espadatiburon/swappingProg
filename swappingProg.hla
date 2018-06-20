@@ -1,0 +1,98 @@
+program swappingProg;
+#include( "stdlib.hhf" );
+static 
+	myX: int16 := 0;
+	myY: int16 := 0;
+	myZ: int16 := 0;
+procedure swapper( var x : int16; var y : int16; var z : int16 ); @nodisplay; @noframe; 
+static
+	dReturnAddress: dword;
+	tempNumber: int16 := 0;
+	
+	tempEAX: dword := 0;
+	tempEBX: dword := 0;
+	tempECX: dword := 0;
+	tempEDX: dword := 0;
+	tempESI: dword := 0;
+begin swapper;
+
+mov(EAX, tempEAX);
+mov(EBX, tempEBX);
+mov(ECX, tempECX);
+mov(EDX, tempEDX);
+mov(ESI, tempESI);
+pop(dReturnAddress);
+pop(EBX); //address of Z
+pop(ECX); //address of Y
+pop(EDX); //address of X
+push(dReturnAddress);
+push(tempEAX);
+push(tempEBX);
+push(tempECX);
+push(tempEDX);
+push(tempESI);
+
+firstCheck:
+mov([ECX], ESI);
+cmp([EDX], SI);
+jg firstSwap;
+
+secondCheck:
+mov([ECX], ESI);
+cmp(SI, [EBX]);
+jg secondSwap;
+jmp endSwaps;
+
+firstSwap:
+	mov([EDX], EAX);
+	mov(AX, tempNumber);
+	mov([ECX], EAX);
+	mov(AX, [EDX]);
+	mov(tempNumber, AX);
+	mov(AX, [ECX]);
+	jmp secondCheck;
+	
+secondSwap:
+	mov([EBX], EAX);
+	mov(AX, tempNumber);
+	mov([ECX], EAX);
+	mov(AX, [EBX]);
+	mov(tempNumber, AX);
+	mov(AX, [ECX]);
+	jmp firstCheck;
+	
+endSwaps:
+	pop(EAX);
+	pop(EBX);
+	pop(ECX);
+	pop(EDX);
+	pop(ESI);
+	ret();
+
+end swapper;
+
+begin swappingProg;
+
+stdout.put("Gimme X: ");
+stdin.get(myX);
+stdout.put("Gimme Y: ");
+stdin.get(myY);
+stdout.put("Gimme Z: ");
+stdin.get(myZ);
+
+lea(EAX, myX);
+push(EAX);
+lea(EAX, myY);
+push(EAX);
+lea(EAX, myZ);
+push(EAX);
+
+call swapper;
+
+stdout.put("After sorting, X = ");
+stdout.puti16(myX);
+stdout.put(", Y = ");
+stdout.puti16(myY);
+stdout.put(", Z = ");
+stdout.puti16(myZ);
+end swappingProg;
